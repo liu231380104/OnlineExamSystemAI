@@ -1,7 +1,7 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.FillQuestion;
 import com.onlineexam.mapper.FillQuestionMapper;
 import com.onlineexam.service.FillQuestionService;
@@ -22,8 +22,10 @@ public class FillQuestionServiceImpl implements FillQuestionService {
     }
 
     @Override
-    public IPage<FillQuestion> findAll(Page<FillQuestion> page) {
-        return fillQuestionMapper.findAll(page);
+    public PageInfo<FillQuestion> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        List<FillQuestion> fillQuestions = fillQuestionMapper.findAll();
+        return new PageInfo<>(fillQuestions);
     }
 
     @Override

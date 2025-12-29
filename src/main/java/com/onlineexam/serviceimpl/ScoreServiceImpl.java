@@ -1,7 +1,7 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.Score;
 import com.onlineexam.mapper.ScoreMapper;
 import com.onlineexam.service.ScoreService;
@@ -26,14 +26,10 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public IPage<Score> findById(Page page, Integer studentId) {
-        return scoreMapper.findById(page, studentId);
-    }
-
-    @Override
-    public List<Score> findById(Integer studentId) {
-        Page<Score> scorePage = new Page<>(0, 9999);
-        return scoreMapper.findById(scorePage, studentId).getRecords();
+    public PageInfo<Score> findById(Integer studentId, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Score> scores = scoreMapper.findById(studentId);
+        return new PageInfo<>(scores);
     }
 
     @Override

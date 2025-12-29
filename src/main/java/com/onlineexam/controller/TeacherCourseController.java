@@ -28,12 +28,12 @@ public class TeacherCourseController {
     @PostMapping("/teacher/course")
     public ApiResult add(@RequestBody TeacherCourse teacherCourse, HttpServletRequest request) {
         // 获取当前登录教师ID
-        Integer teacherId = null;
+        Integer cookieTeacherId = null;
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("rb_teacher_id".equals(cookie.getName())) {
                     try {
-                        teacherId = Integer.parseInt(cookie.getValue());
+                        cookieTeacherId = Integer.parseInt(cookie.getValue());
                     } catch (NumberFormatException e) {
                         // 忽略
                     }
@@ -41,9 +41,10 @@ public class TeacherCourseController {
             }
         }
         
-        // 如果是教师，自动设置teacherId
-        if (teacherId != null) {
-            teacherCourse.setTeacherId(teacherId);
+        // 如果传入的teacherId为空，才从cookie中获取（教师自己操作的情况）
+        // 如果传入了teacherId，则使用传入的值（管理员操作的情况）
+        if (teacherCourse.getTeacherId() == null && cookieTeacherId != null) {
+            teacherCourse.setTeacherId(cookieTeacherId);
         }
         
         int res = teacherCourseService.add(teacherCourse);
@@ -113,6 +114,15 @@ public class TeacherCourseController {
     }
 
     /**
+     * 根据教师ID查询教授的课程列表（用于管理员操作）
+     */
+    @GetMapping("/teacher/courses/{teacherId}")
+    public ApiResult findCoursesByTeacherId(@PathVariable Integer teacherId) {
+        List<Course> courses = teacherCourseService.findCoursesByTeacherId(teacherId);
+        return ApiResultHandler.buildApiResult(200, "请求成功", courses);
+    }
+
+    /**
      * 根据课程ID查询教授该课程的教师列表（用于学生选课）
      */
     @GetMapping("/course/{courseId}/teachers")
@@ -128,5 +138,13 @@ public class TeacherCourseController {
         }
         return ApiResultHandler.buildApiResult(200, "请求成功", teachers);
     }
-}
 
+    /**
+     * 删除教师的所有课程关联（用于管理员更新教师信息）
+     */
+    @DeleteMapping("/teacher/courses/{teacherId}")
+    public ApiResult deleteAllByTeacherId(@PathVariable Integer teacherId) {
+        int res = teacherCourseService.deleteAllByTeacherId(teacherId);
+        return ApiResultHandler.buildApiResult(200, "删除成功", res);
+    }
+}

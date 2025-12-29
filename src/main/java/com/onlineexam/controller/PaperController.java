@@ -1,5 +1,6 @@
 package com.onlineexam.controller;
 
+import com.onlineexam.entity.ApiResult;
 import com.onlineexam.entity.*;
 import com.onlineexam.serviceimpl.FillQuestionServiceImpl;
 import com.onlineexam.serviceimpl.JudgeQuestionServiceImpl;
@@ -28,7 +29,7 @@ public class PaperController {
     @Autowired
     private FillQuestionServiceImpl fillQuestionService;
     @GetMapping("/papers")
-    public ApiResult<PaperManage> findAll() {
+    public ApiResult findAll() {
        ApiResult res =  ApiResultHandler.buildApiResult(200,"请求成功",paperService.findAll());
        return  res;
     }

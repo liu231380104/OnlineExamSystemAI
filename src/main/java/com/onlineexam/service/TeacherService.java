@@ -1,14 +1,13 @@
 package com.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.Teacher;
 
 import java.util.List;
 
 public interface TeacherService {
 
-    IPage<Teacher> findAll(Page<Teacher> page);
+    PageInfo<Teacher> findAll(Integer current, Integer size);
 
     public List<Teacher> findAll();
 

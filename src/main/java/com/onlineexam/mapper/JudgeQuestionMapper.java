@@ -1,7 +1,5 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.JudgeQuestion;
 import org.apache.ibatis.annotations.*;
 
@@ -16,7 +14,7 @@ public interface JudgeQuestionMapper {
     List<JudgeQuestion> findByIdAndType(Integer paperId);
 
     @Select("select * from judge_question")
-    IPage<JudgeQuestion> findAll(Page page);
+    List<JudgeQuestion> findAll();
 
     /**
      * 查询最后一条记录的questionId

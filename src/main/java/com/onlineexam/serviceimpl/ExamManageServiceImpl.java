@@ -1,7 +1,7 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.ExamManage;
 import com.onlineexam.mapper.ExamManageMapper;
 import com.onlineexam.service.ExamManageService;
@@ -25,17 +25,17 @@ public class ExamManageServiceImpl implements ExamManageService {
 
     @Override
     public List<ExamManage> findAll() {
-        Page<ExamManage> examManage = new Page<>(0,9999);
-        List<ExamManage> examManageList = examManageMapper.findAll(examManage).getRecords();
+        List<ExamManage> examManageList = examManageMapper.findAll();
         setMaxScore(examManageList);
         return examManageList;
     }
 
     @Override
-    public IPage<ExamManage> findAll(Page<ExamManage> page) {
-        IPage<ExamManage> iPage = examManageMapper.findAll(page);
-        setMaxScore(iPage.getRecords());
-        return iPage;
+    public PageInfo<ExamManage> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        List<ExamManage> examManageList = examManageMapper.findAll();
+        setMaxScore(examManageList);
+        return new PageInfo<>(examManageList);
     }
 
     @Override
@@ -78,23 +78,26 @@ public class ExamManageServiceImpl implements ExamManageService {
     }
 
     @Override
-    public IPage<ExamManage> findByTeacher(Page<ExamManage> page, Integer teacherId, String teacherInstitute) {
-        IPage<ExamManage> iPage = examManageMapper.findByTeacher(page, teacherId, teacherInstitute);
-        setMaxScore(iPage.getRecords());
-        return iPage;
+    public PageInfo<ExamManage> findByTeacher(Integer page, Integer size, Integer teacherId, String teacherInstitute) {
+        PageHelper.startPage(page, size);
+        List<ExamManage> examManageList = examManageMapper.findByTeacher(teacherId, teacherInstitute);
+        setMaxScore(examManageList);
+        return new PageInfo<>(examManageList);
     }
 
     @Override
-    public IPage<ExamManage> findByStudentId(Page<ExamManage> page, Integer studentId) {
-        IPage<ExamManage> iPage = examManageMapper.findByStudentId(page, studentId);
-        setMaxScore(iPage.getRecords());
-        return iPage;
+    public PageInfo<ExamManage> findByStudentId(Integer page, Integer size, Integer studentId) {
+        PageHelper.startPage(page, size);
+        List<ExamManage> examManageList = examManageMapper.findByStudentId(studentId);
+        setMaxScore(examManageList);
+        return new PageInfo<>(examManageList);
     }
 
     @Override
-    public IPage<ExamManage> findByTeacherCourses(Page<ExamManage> page, Integer teacherId, String teacherInstitute) {
-        IPage<ExamManage> iPage = examManageMapper.findByTeacherCourses(page, teacherId, teacherInstitute);
-        setMaxScore(iPage.getRecords());
-        return iPage;
+    public PageInfo<ExamManage> findByTeacherCourses(Integer page, Integer size, Integer teacherId, String teacherInstitute) {
+        PageHelper.startPage(page, size);
+        List<ExamManage> examManageList = examManageMapper.findByTeacherCourses(teacherId, teacherInstitute);
+        setMaxScore(examManageList);
+        return new PageInfo<>(examManageList);
     }
 }

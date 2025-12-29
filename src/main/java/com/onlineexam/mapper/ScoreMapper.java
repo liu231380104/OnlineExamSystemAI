@@ -1,7 +1,5 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.Score;
 import org.apache.ibatis.annotations.*;
 
@@ -20,9 +18,9 @@ public interface ScoreMapper {
     @Select("select scoreId,examCode,studentId,subject,ptScore,etScore,score,answerDate from score order by scoreId desc")
     List<Score> findAll();
 
-    // 分页
+    // 分页 - 使用PageHelper实现
     @Select("select scoreId,examCode,studentId,subject,ptScore,etScore,score,answerDate from score where studentId = #{studentId} order by scoreId asc")
-    IPage<Score> findById(Page<?> page, @Param("studentId") Integer studentId);
+    List<Score> findById(@Param("studentId") Integer studentId);
 
     /**
      *

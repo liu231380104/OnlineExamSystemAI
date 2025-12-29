@@ -1,7 +1,6 @@
 package com.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.Score;
 
 import java.util.List;
@@ -11,9 +10,7 @@ public interface ScoreService {
 
     List<Score> findAll();
 
-    IPage<Score> findById(Page page, Integer studentId);
-
-    List<Score> findById(Integer studentId);
+    PageInfo<Score> findById(Integer studentId, Integer pageNum, Integer pageSize);
 
     List<Score> findByExamCode(Integer examCode);
 }

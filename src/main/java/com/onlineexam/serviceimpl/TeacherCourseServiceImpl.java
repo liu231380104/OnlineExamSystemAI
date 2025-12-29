@@ -35,8 +35,12 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
     }
 
     @Override
+    public int deleteAllByTeacherId(Integer teacherId) {
+        return teacherCourseMapper.deleteAllByTeacherId(teacherId);
+    }
+
+    @Override
     public int checkTeacherCourse(Integer teacherId, Integer courseId) {
         return teacherCourseMapper.checkTeacherCourse(teacherId, courseId);
     }
 }
-

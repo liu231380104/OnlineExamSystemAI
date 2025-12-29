@@ -39,7 +39,7 @@ public class AIGenerateServiceImpl implements AIGenerateService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public ApiResult<?> generateAndSave(AIGenerateParam param) {
+    public ApiResult generateAndSave(AIGenerateParam param) {
         try {
             // 1. 构建提示词
             String prompt = buildPrompt(param);
@@ -351,7 +351,7 @@ public class AIGenerateServiceImpl implements AIGenerateService {
     }
 
     @Override
-    public ApiResult<?> generatePreview(AIGenerateParam param) {
+    public ApiResult generatePreview(AIGenerateParam param) {
         try {
             // 1. 构建提示词
             String prompt = buildPrompt(param);
@@ -378,7 +378,7 @@ public class AIGenerateServiceImpl implements AIGenerateService {
     }
 
     @Override
-    public ApiResult<?> batchSaveQuestions(String questionType, List<?> questions) {
+    public ApiResult batchSaveQuestions(String questionType, List<?> questions) {
         if (questions == null || questions.isEmpty()) {
             return ApiResultHandler.buildApiResult(400, "题目列表为空", null);
         }

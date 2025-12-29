@@ -1,7 +1,6 @@
 package com.onlineexam.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.ApiResult;
 import com.onlineexam.entity.ExamManage;
 import com.onlineexam.entity.Teacher;
@@ -59,25 +58,21 @@ public class ExamManageController {
                     }
                 }
             }
-            // 只有教师（role="1"）才需要过滤
+            // 教师不再按学院过滤，使用授课关系确定可见考试
             if ("1".equals(role) && teacherId != null) {
-                Teacher teacher = teacherService.findById(teacherId);
-                if (teacher != null) {
-                    teacherInstitute = teacher.getInstitute();
-                }
+                teacherInstitute = null;
             }
         }
         
-        Page<ExamManage> examManage = new Page<>(1, 9999);
         // 根据角色进行过滤
         if ("2".equals(role) && studentId != null) {
             // 学生：只返回已选课程的试卷
-            IPage<ExamManage> all = examManageService.findByStudentId(examManage, studentId);
-            apiResult = ApiResultHandler.buildApiResult(200, "请求成功！", all.getRecords());
+            PageInfo<ExamManage> all = examManageService.findByStudentId(1, 9999, studentId);
+            apiResult = ApiResultHandler.buildApiResult(200, "请求成功！", all.getList());
         } else if ("1".equals(role) && teacherId != null) {
-            // 教师：只返回自己教授的课程的试卷
-            IPage<ExamManage> all = examManageService.findByTeacherCourses(examManage, teacherId, teacherInstitute);
-            apiResult = ApiResultHandler.buildApiResult(200, "请求成功！", all.getRecords());
+            // 教师：只返回自己教授的课程的试卷（不按学院限制）
+            PageInfo<ExamManage> all = examManageService.findByTeacherCourses(1, 9999, teacherId, null);
+            apiResult = ApiResultHandler.buildApiResult(200, "请求成功！", all.getList());
         } else {
             // 管理员看所有试卷
             apiResult = ApiResultHandler.buildApiResult(200, "请求成功！", examManageService.findAll());
@@ -90,7 +85,6 @@ public class ExamManageController {
                             HttpServletRequest request){
         System.out.println("分页查询所有试卷");
         ApiResult apiResult;
-        Page<ExamManage> examManage = new Page<>(page,size);
         
         // 获取当前登录用户角色和ID
         String role = null;
@@ -115,26 +109,23 @@ public class ExamManageController {
                     }
                 }
             }
-            // 只有教师（role="1"）才需要过滤
+            // 教师不再按学院过滤，使用授课关系确定可见考试
             if ("1".equals(role) && teacherId != null) {
-                Teacher teacher = teacherService.findById(teacherId);
-                if (teacher != null) {
-                    teacherInstitute = teacher.getInstitute();
-                }
+                teacherInstitute = null;
             }
         }
         
         // 根据角色进行过滤
-        IPage<ExamManage> all;
+        PageInfo<ExamManage> all;
         if ("2".equals(role) && studentId != null) {
             // 学生：只返回已选课程的试卷
-            all = examManageService.findByStudentId(examManage, studentId);
+            all = examManageService.findByStudentId(page, size, studentId);
         } else if ("1".equals(role) && teacherId != null) {
-            // 教师：只返回自己教授的课程的试卷
-            all = examManageService.findByTeacherCourses(examManage, teacherId, teacherInstitute);
+            // 教师：只返回自己教授的课程的试卷（不按学院限制）
+            all = examManageService.findByTeacherCourses(page, size, teacherId, null);
         } else {
             // 管理员看所有试卷
-            all = examManageService.findAll(examManage);
+            all = examManageService.findAll(page, size);
         }
         apiResult = ApiResultHandler.buildApiResult(200, "请求成功！", all);
         return apiResult;

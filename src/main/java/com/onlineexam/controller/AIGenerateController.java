@@ -15,17 +15,17 @@ public class AIGenerateController {
     private AIGenerateService aiGenerateService;
 
     @PostMapping("/ai/generate")
-    public ApiResult<?> generate(@RequestBody AIGenerateParam param) {
+    public ApiResult generate(@RequestBody AIGenerateParam param) {
         return aiGenerateService.generateAndSave(param);
     }
 
     @PostMapping("/ai/generate/preview")
-    public ApiResult<?> generatePreview(@RequestBody AIGenerateParam param) {
+    public ApiResult generatePreview(@RequestBody AIGenerateParam param) {
         return aiGenerateService.generatePreview(param);
     }
 
     @PostMapping("/ai/batchSave")
-    public ApiResult<?> batchSave(@RequestBody com.onlineexam.vo.BatchSaveRequest request) {
+    public ApiResult batchSave(@RequestBody com.onlineexam.vo.BatchSaveRequest request) {
         return aiGenerateService.batchSaveQuestions(request.getQuestionType(), request.getQuestions());
     }
 }

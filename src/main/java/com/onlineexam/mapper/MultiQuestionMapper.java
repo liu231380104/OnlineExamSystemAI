@@ -1,7 +1,5 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.MultiQuestion;
 import org.apache.ibatis.annotations.*;
 
@@ -19,7 +17,7 @@ public interface MultiQuestionMapper {
     List<MultiQuestion> findByIdAndType(Integer PaperId);
 
     @Select("select * from multi_question")
-    IPage<MultiQuestion> findAll(Page page);
+    List<MultiQuestion> findAll();
 
     /**
      * 查询最后一条记录的questionId

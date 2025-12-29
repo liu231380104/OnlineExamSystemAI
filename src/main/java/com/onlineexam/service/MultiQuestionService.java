@@ -1,7 +1,6 @@
 package com.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.MultiQuestion;
 
 import java.util.List;
@@ -10,7 +9,7 @@ public interface MultiQuestionService {
 
     List<MultiQuestion> findByIdAndType(Integer PaperId);
 
-    IPage<MultiQuestion> findAll(Page<MultiQuestion> page);
+    PageInfo<MultiQuestion> findAll(Integer page, Integer size);
 
     MultiQuestion findOnlyQuestionId();
 

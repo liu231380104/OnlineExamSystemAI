@@ -39,4 +39,12 @@ public class FillQuestionController {
         }
         return ApiResultHandler.buildApiResult(400,"修改失败",res);
     }
+
+    @GetMapping("/fillQuestions/{page}/{size}/{subject}/{question}")
+    public ApiResult list(@org.springframework.web.bind.annotation.PathVariable Integer page,
+                          @org.springframework.web.bind.annotation.PathVariable Integer size,
+                          @org.springframework.web.bind.annotation.PathVariable String subject,
+                          @org.springframework.web.bind.annotation.PathVariable String question) {
+        return ApiResultHandler.buildApiResult(200, "查询成功", fillQuestionService.findAll(page, size));
+    }
 }

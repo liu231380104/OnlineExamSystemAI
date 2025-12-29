@@ -8,8 +8,8 @@ public interface AIGenerateService {
     ApiResult generateAndSave(AIGenerateParam param);
     
     // 只生成不保存，返回题目列表供预览
-    ApiResult<?> generatePreview(AIGenerateParam param);
+    ApiResult generatePreview(AIGenerateParam param);
     
     // 批量保存题目
-    ApiResult<?> batchSaveQuestions(String questionType, List<?> questions);
+    ApiResult batchSaveQuestions(String questionType, List<?> questions);
 }

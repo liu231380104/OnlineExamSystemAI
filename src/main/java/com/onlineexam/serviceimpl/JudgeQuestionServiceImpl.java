@@ -1,7 +1,7 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.JudgeQuestion;
 import com.onlineexam.mapper.JudgeQuestionMapper;
 import com.onlineexam.service.JudgeQuestionService;
@@ -22,8 +22,10 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
     }
 
     @Override
-    public IPage<JudgeQuestion> findAll(Page<JudgeQuestion> page) {
-        return judgeQuestionMapper.findAll(page);
+    public PageInfo<JudgeQuestion> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        List<JudgeQuestion> judgeQuestions = judgeQuestionMapper.findAll();
+        return new PageInfo<>(judgeQuestions);
     }
 
     @Override

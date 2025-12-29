@@ -1,13 +1,12 @@
 package com.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.vo.AnswerVO;
 import com.onlineexam.vo.QuestionVO;
 
 public interface AnswerService {
 
-    IPage<AnswerVO> findAll(Page<AnswerVO> page, String subject, String section, String question);
+    PageInfo<AnswerVO> findAll(Integer page, Integer size, String subject, String section, String question);
 
     /**
      * 根据类型和id获取题目

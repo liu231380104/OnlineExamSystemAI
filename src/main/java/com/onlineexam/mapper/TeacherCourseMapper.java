@@ -41,5 +41,10 @@ public interface TeacherCourseMapper {
      */
     @Select("select count(*) from teacher_course where teacherId=#{teacherId} and courseId=#{courseId}")
     int checkTeacherCourse(@Param("teacherId") Integer teacherId, @Param("courseId") Integer courseId);
-}
 
+    /**
+     * 删除教师的所有课程关联
+     */
+    @Delete("delete from teacher_course where teacherId=#{teacherId}")
+    int deleteAllByTeacherId(@Param("teacherId") Integer teacherId);
+}

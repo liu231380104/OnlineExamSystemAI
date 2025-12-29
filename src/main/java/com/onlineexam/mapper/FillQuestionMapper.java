@@ -1,7 +1,5 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.FillQuestion;
 import org.apache.ibatis.annotations.*;
 
@@ -15,7 +13,7 @@ public interface FillQuestionMapper {
     List<FillQuestion> findByIdAndType(Integer paperId);
 
     @Select("select * from fill_question")
-    IPage<FillQuestion> findAll(Page page);
+    List<FillQuestion> findAll();
 
     /**
      * 查询最后一条questionId

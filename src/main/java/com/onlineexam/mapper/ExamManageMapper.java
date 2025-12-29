@@ -1,22 +1,19 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.ExamManage;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface ExamManageMapper {
-//    @Select("select * from exam_manage")
-//    List<ExamManage> findAll();
-
     @Select("select * from exam_manage")
-    IPage<ExamManage> findAll(Page page);
+    List<ExamManage> findAll();
 
     @Select("select * from exam_manage where " +
             "(#{teacherId} is null or teacherId = #{teacherId}) " +
             "and (#{teacherInstitute} is null or #{teacherInstitute} = '' or institute = #{teacherInstitute})")
-    IPage<ExamManage> findByTeacher(Page page, @Param("teacherId") Integer teacherId, 
+    List<ExamManage> findByTeacher(@Param("teacherId") Integer teacherId, 
                                      @Param("teacherInstitute") String teacherInstitute);
 
     /**
@@ -26,7 +23,7 @@ public interface ExamManageMapper {
             "inner join student_course sc on em.courseId = sc.courseId and em.teacherId = sc.teacherId " +
             "where sc.studentId = #{studentId} " +
             "order by em.examCode desc")
-    IPage<ExamManage> findByStudentId(Page page, @Param("studentId") Integer studentId);
+    List<ExamManage> findByStudentId(@Param("studentId") Integer studentId);
 
     /**
      * 根据教师ID查询该教师教授的课程的试卷（通过teacher_course关联）
@@ -36,7 +33,7 @@ public interface ExamManageMapper {
             "where tc.teacherId = #{teacherId} " +
             "and (#{teacherInstitute} is null or #{teacherInstitute} = '' or em.institute = #{teacherInstitute}) " +
             "order by em.examCode desc")
-    IPage<ExamManage> findByTeacherCourses(Page page, @Param("teacherId") Integer teacherId,
+    List<ExamManage> findByTeacherCourses(@Param("teacherId") Integer teacherId,
                                              @Param("teacherInstitute") String teacherInstitute);
 
     @Select("select * from exam_manage where examCode = #{examCode}")

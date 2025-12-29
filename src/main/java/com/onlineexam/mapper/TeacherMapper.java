@@ -1,15 +1,15 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.Teacher;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TeacherMapper {
 
     @Select("select * from teacher")
-    IPage<Teacher>  findAll(Page page);
+    List<Teacher>  findAll();
 
 //    @Select("select * from teacher")
 //    public List<Teacher> findAll();

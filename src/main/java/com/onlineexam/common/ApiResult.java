@@ -1,11 +1,8 @@
 package com.onlineexam.common;
 
-import lombok.Data;
-
 /**
  * 统一接口响应结果类
  */
-@Data
 public class ApiResult {
     // 响应状态码：200成功，400参数错误，500服务器错误
     private int code;
@@ -19,8 +16,8 @@ public class ApiResult {
      */
     public static ApiResult success() {
         ApiResult result = new ApiResult();
-        result.setCode(200);
-        result.setMsg("操作成功");
+        result.code = 200;
+        result.msg = "操作成功";
         return result;
     }
 
@@ -29,8 +26,8 @@ public class ApiResult {
      */
     public static ApiResult success(String msg) {
         ApiResult result = new ApiResult();
-        result.setCode(200);
-        result.setMsg(msg);
+        result.code = 200;
+        result.msg = msg;
         return result;
     }
 
@@ -39,9 +36,9 @@ public class ApiResult {
      */
     public static ApiResult success(Object data) {
         ApiResult result = new ApiResult();
-        result.setCode(200);
-        result.setMsg("操作成功");
-        result.setData(data);
+        result.code = 200;
+        result.msg = "操作成功";
+        result.data = data;
         return result;
     }
 
@@ -50,8 +47,8 @@ public class ApiResult {
      */
     public static ApiResult error(String msg) {
         ApiResult result = new ApiResult();
-        result.setCode(500);
-        result.setMsg(msg);
+        result.code = 500;
+        result.msg = msg;
         return result;
     }
 
@@ -60,8 +57,33 @@ public class ApiResult {
      */
     public static ApiResult paramError(String msg) {
         ApiResult result = new ApiResult();
-        result.setCode(400);
-        result.setMsg(msg);
+        result.code = 400;
+        result.msg = msg;
         return result;
+    }
+
+    // Getter和Setter方法
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

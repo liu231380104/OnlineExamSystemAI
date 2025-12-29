@@ -1,9 +1,9 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.Message;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface MessageMapper {
@@ -11,7 +11,7 @@ public interface MessageMapper {
     @Results({
             @Result(property = "replays", column = "temp_id",many = @Many(select = "com.onlineexam.mapper.ReplayMapper.findAllById"))
     })
-    IPage<Message> findAll(Page page);
+    List<Message> findAll();
 
     @Select("select id,title,content,time from message where id = #{id}")
     @Results({

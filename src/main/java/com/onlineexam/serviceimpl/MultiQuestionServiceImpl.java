@@ -1,7 +1,7 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.MultiQuestion;
 import com.onlineexam.mapper.MultiQuestionMapper;
 import com.onlineexam.service.MultiQuestionService;
@@ -21,8 +21,10 @@ public class MultiQuestionServiceImpl implements MultiQuestionService {
     }
 
     @Override
-    public IPage<MultiQuestion> findAll(Page<MultiQuestion> page) {
-        return multiQuestionMapper.findAll(page);
+    public PageInfo<MultiQuestion> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        List<MultiQuestion> multiQuestions = multiQuestionMapper.findAll();
+        return new PageInfo<>(multiQuestions);
     }
 
     @Override

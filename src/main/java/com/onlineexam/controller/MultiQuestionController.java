@@ -41,4 +41,13 @@ public class MultiQuestionController {
         }
         return ApiResultHandler.buildApiResult(400,"修改失败",res);
     }
+
+    @GetMapping("/choiceQuestions/{page}/{size}/{subject}/{question}")
+    public ApiResult list(@org.springframework.web.bind.annotation.PathVariable Integer page,
+                          @org.springframework.web.bind.annotation.PathVariable Integer size,
+                          @org.springframework.web.bind.annotation.PathVariable String subject,
+                          @org.springframework.web.bind.annotation.PathVariable String question) {
+        // 前端使用 @ 作为占位，服务端直接忽略过滤，返回分页列表
+        return ApiResultHandler.buildApiResult(200, "查询成功", multiQuestionService.findAll(page, size));
+    }
 }

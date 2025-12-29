@@ -1,7 +1,6 @@
 package com.onlineexam.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.ApiResult;
 import com.onlineexam.serviceimpl.AnswerServiceImpl;
 import com.onlineexam.util.ApiResultHandler;
@@ -24,8 +23,7 @@ public class AnswerController {
             @PathVariable("page") Integer page, @PathVariable("size") Integer size,
             @PathVariable("subject") String subject, @PathVariable("section") String section,
             @PathVariable("question") String question){
-       Page<AnswerVO> answerVOPage = new Page<>(page,size);
-       IPage<AnswerVO> answerVOIPage = answerService.findAll(answerVOPage, subject, section, question);
+       PageInfo<AnswerVO> answerVOIPage = answerService.findAll(page, size, subject, section, question);
        return ApiResultHandler.buildApiResult(200,"查询所有题库", answerVOIPage);
     }
 

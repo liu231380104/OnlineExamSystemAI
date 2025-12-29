@@ -1,10 +1,9 @@
 package com.onlineexam.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.ApiResult;
 import com.onlineexam.entity.Message;
-import com.onlineexam.serviceimpl.MessageServiceImpl;
+import com.onlineexam.service.MessageService;
 import com.onlineexam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class MessageController {
 
     @Autowired
-    private MessageServiceImpl messageService;
+    private MessageService messageService;
 
     @GetMapping("/messages/{page}/{size}")
-    public ApiResult<Message> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
-        Page<Message> messagePage = new Page<>(page,size);
-        IPage<Message> all = messageService.findAll(messagePage);
+    public ApiResult findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        PageInfo<Message> all = messageService.findAll(page, size);
         return ApiResultHandler.buildApiResult(200,"查询所有留言",all);
     }
 

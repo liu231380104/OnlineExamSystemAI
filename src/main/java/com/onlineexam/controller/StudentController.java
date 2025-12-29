@@ -1,7 +1,6 @@
 package com.onlineexam.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.ApiResult;
 import com.onlineexam.entity.Student;
 import com.onlineexam.entity.Teacher;
@@ -29,7 +28,6 @@ public class StudentController {
                              @PathVariable String tel, @PathVariable String institute,
                              @PathVariable String major, @PathVariable String clazz,
                              HttpServletRequest request) {
-        Page<Student> studentPage = new Page<>(page,size);
         
         // 获取当前登录用户的角色和教师信息
         String role = null;
@@ -57,8 +55,8 @@ public class StudentController {
         }
         
         // 管理员不传teacherInstitute（null），会查询所有学生；教师传teacherInstitute，只查询同学院学生
-        IPage<Student> res = studentService.findAll(
-                studentPage, name, grade, tel, institute, major, clazz, teacherInstitute
+        PageInfo<Student> res = studentService.findAll(
+                page, size, name, grade, tel, institute, major, clazz, teacherInstitute
         );
         return  ApiResultHandler.buildApiResult(200,"分页查询所有学生",res);
     }

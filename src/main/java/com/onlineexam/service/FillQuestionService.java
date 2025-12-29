@@ -1,7 +1,6 @@
 package com.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.FillQuestion;
 
 import java.util.List;
@@ -10,7 +9,7 @@ public interface FillQuestionService {
 
     List<FillQuestion> findByIdAndType(Integer paperId);
 
-    IPage<FillQuestion> findAll(Page<FillQuestion> page);
+    PageInfo<FillQuestion> findAll(Integer page, Integer size);
 
     FillQuestion findOnlyQuestionId();
 

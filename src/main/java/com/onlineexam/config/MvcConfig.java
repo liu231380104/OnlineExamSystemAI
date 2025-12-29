@@ -44,10 +44,10 @@ public class MvcConfig implements WebMvcConfigurer {
     public CorsFilter corsFilter() {
         // 1.创建 CORS 配置对象
         CorsConfiguration config = new CorsConfiguration();
-        // 支持域
+        // 支持所有域
         config.addAllowedOrigin("*");
-        // 是否发送 Cookie
-        config.setAllowCredentials(true);
+        // 不携带 Cookie（与通配域兼容，避免浏览器拒绝）
+        config.setAllowCredentials(false);
         // 支持请求方式
         config.addAllowedMethod("*");
         // 允许的原始请求头部信息

@@ -1,11 +1,10 @@
 package com.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.Message;
 
 public interface MessageService {
-    IPage<Message> findAll(Page page);
+    PageInfo<Message> findAll(Integer pageNum, Integer pageSize);
 
     Message findById(Integer id);
 

@@ -1,13 +1,15 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.mapper.AnswerMapper;
 import com.onlineexam.service.AnswerService;
 import com.onlineexam.vo.AnswerVO;
 import com.onlineexam.vo.QuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -16,11 +18,13 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerMapper answerMapper;
 
     @Override
-    public IPage<AnswerVO> findAll(Page<AnswerVO> page, String subject, String section, String question) {
+    public PageInfo<AnswerVO> findAll(Integer page, Integer size, String subject, String section, String question) {
         subject = (subject.equals("@") ? "" : subject);
         section = (section.equals("@") ? "" : section);
         question = (question.equals("@") ? "" : question);
-        return answerMapper.findAll(page, subject, section, question);
+        PageHelper.startPage(page, size);
+        List<AnswerVO> answerVOList = answerMapper.findAll(subject, section, question);
+        return new PageInfo<>(answerVOList);
     }
 
     @Override

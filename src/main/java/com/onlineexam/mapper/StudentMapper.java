@@ -1,16 +1,15 @@
 package com.onlineexam.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.onlineexam.entity.Student;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface StudentMapper {
 
     /**
      * 分页查询所有学生
-     * @param page
      * @return List<Student>
      */
     @Select("select * from student where " +
@@ -21,10 +20,27 @@ public interface StudentMapper {
             "and institute like concat('%',#{institute},'%') " +
             "and clazz like concat('%',#{clazz},'%') " +
             "and (#{teacherInstitute} is null or #{teacherInstitute} = '' or institute = #{teacherInstitute})")
-    IPage<Student> findAll(Page page, @Param("name") String name, @Param("grade") String grade,
+    List<Student> findAll(@Param("name") String name, @Param("grade") String grade,
                            @Param("tel") String tel,  @Param("institute") String institute,
                            @Param("major")String major, @Param("clazz") String clazz,
                            @Param("teacherInstitute") String teacherInstitute);
+
+    /**
+     * 按教师授课关系查询学生（不限制学院），并支持条件筛选
+     */
+    @Select("select distinct s.* from student s " +
+            "inner join student_course sc on s.studentId = sc.studentId " +
+            "where sc.teacherId = #{teacherId} " +
+            "and s.studentName like concat('%',#{name},'%') " +
+            "and s.grade like concat('%',#{grade},'%') " +
+            "and s.tel like concat('%',#{tel},'%') " +
+            "and s.major like concat('%',#{major},'%') " +
+            "and s.institute like concat('%',#{institute},'%') " +
+            "and s.clazz like concat('%',#{clazz},'%') ")
+    List<Student> findByTeacherWithFilters(@Param("teacherId") Integer teacherId,
+                                           @Param("name") String name, @Param("grade") String grade,
+                                           @Param("tel") String tel,  @Param("institute") String institute,
+                                           @Param("major")String major, @Param("clazz") String clazz);
 
     @Select("select * from student where studentId = #{studentId}")
     Student findById(Integer studentId);

@@ -1,7 +1,7 @@
 package com.onlineexam.serviceimpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.onlineexam.entity.Teacher;
 import com.onlineexam.mapper.TeacherMapper;
 import com.onlineexam.service.TeacherService;
@@ -16,14 +16,15 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public IPage<Teacher> findAll(Page<Teacher> page) {
-        return teacherMapper.findAll(page);
+    public PageInfo<Teacher> findAll(Integer current, Integer size) {
+        PageHelper.startPage(current, size);
+        List<Teacher> teachers = teacherMapper.findAll();
+        return new PageInfo<>(teachers);
     }
 
     @Override
     public List<Teacher> findAll() {
-        Page<Teacher> teacherPage = new Page<>(0,9999);
-        return teacherMapper.findAll(teacherPage).getRecords();
+        return teacherMapper.findAll();
     }
 
     @Override
